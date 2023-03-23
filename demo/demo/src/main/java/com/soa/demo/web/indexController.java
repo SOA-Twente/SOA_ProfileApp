@@ -18,6 +18,12 @@ public class indexController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/")
+    public String home(){
+        return "Hello World";
+    }
+
     @GetMapping("/getQuacks")
     public List<Message> getQuacks(Model model){
         String sql = "SELECT * FROM quacks";
@@ -112,7 +118,7 @@ public class indexController {
     }
 
     //Need id of user to add follower to and String of description to add
-    @PostMapping("/addDescription")
+    @PostMapping("/addDescription/")
     public UserData addDescription( @RequestBody UserData message){
         //Change value of description in userdata for certain user.
         String sql = "UPDATE userdata SET description = ? WHERE id = ?";
@@ -130,7 +136,7 @@ public class indexController {
     }
 
     //Need id of user to add follower to and Username to add
-    @PostMapping("/addUser")
+    @PostMapping("/addUserProfile")
     public UserData addUser(@RequestBody UserData user){
         String sql = "INSERT INTO userdata (id, username, followers) VALUES (?,?, ?)";
 
@@ -147,9 +153,10 @@ public class indexController {
     }
 
     //Get list of users
+    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/users")
     public List<UserData>  getUsers(Model model){
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM userData";
         List<UserData> listUsers = jdbcTemplate.query(sql,
                 BeanPropertyRowMapper.newInstance(UserData.class));
 

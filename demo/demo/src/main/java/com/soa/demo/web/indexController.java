@@ -8,17 +8,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+
 import java.util.List;
 
 
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:5173")
 public class indexController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/")
     public String home(){
         return "Hello World";
@@ -153,7 +154,7 @@ public class indexController {
     }
 
     //Get list of users
-    @CrossOrigin(origins = "http://localhost:5173")
+//    @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/users")
     public List<UserData>  getUsers(Model model){
         String sql = "SELECT * FROM userData";
@@ -163,6 +164,7 @@ public class indexController {
         for (UserData user : listUsers) {
             System.out.println(user);
         }
+
         return listUsers;
     }
 }

@@ -9,19 +9,31 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
+import static com.soa.demo.security.GTokenVerify.checkToken;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class indexController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @GetMapping("/")
-    public String home(){
+    public String home(@CookieValue String credentials){
+        System.out.println(credentials);
+        try {
+            System.out.println(checkToken(credentials));
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return "Hello World";
     }
 
